@@ -1,5 +1,6 @@
 import io.netty.buffer.ByteBuf;
-import netty.protocol.LoginRequestPacket;
+import io.netty.buffer.ByteBufAllocator;
+import netty.protocol.request.LoginRequestPacket;
 import netty.protocol.Packet;
 import netty.protocol.PacketCodeC;
 import netty.serialize.Serializer;
@@ -16,17 +17,18 @@ public class PacketCodecTest {
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
 
         loginRequestPacket.setVersion(((byte) 1));
-        loginRequestPacket.setUserId(123);
+        loginRequestPacket.setUserId("123");
         loginRequestPacket.setUsername("zhangji");
         loginRequestPacket.setPassword("password");
 
 
-        PacketCodeC packetCodeC = new PacketCodeC();
+        // PacketCodeC packetCodeC = new PacketCodeC();
+        ByteBufAllocator byteBufAllocator = null;
 
-        ByteBuf byteBuf = packetCodeC.encode(loginRequestPacket);
+        ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(byteBufAllocator, loginRequestPacket);
         System.out.println(byteBuf);
 
-        Packet decodedPacket = packetCodeC.decode(byteBuf);
+        Packet decodedPacket = PacketCodeC.INSTANCE.decode(byteBuf);
 
         Assert.assertArrayEquals(serializer.serialize(loginRequestPacket), serializer.serialize(decodedPacket));
 
