@@ -5,6 +5,7 @@ import netty.protocol.Packet;
 
 import static netty.protocol.command.Command.LOGIN_RESPONSE;
 
+
 @Data
 public class LoginResponsePacket extends Packet {
 

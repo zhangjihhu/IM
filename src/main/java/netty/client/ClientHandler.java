@@ -7,6 +7,8 @@ import netty.protocol.Packet;
 import netty.protocol.PacketCodeC;
 import netty.protocol.request.LoginRequestPacket;
 import netty.protocol.response.LoginResponsePacket;
+import netty.protocol.response.MessageResponsePacket;
+import netty.util.LoginUtil;
 
 import java.util.Date;
 import java.util.UUID;
@@ -21,7 +23,7 @@ public class ClientHandler  extends ChannelInboundHandlerAdapter {
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
         loginRequestPacket.setUserId(UUID.randomUUID().toString());
         loginRequestPacket.setUsername("zhangji");
-        loginRequestPacket.setUsername("123456");
+        loginRequestPacket.setPassword("123456");
 
         //编码
         ByteBuf buffer = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginRequestPacket);
@@ -39,12 +41,16 @@ public class ClientHandler  extends ChannelInboundHandlerAdapter {
 
         if (packet instanceof LoginResponsePacket) {
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket) packet;
+            LoginUtil.markAsLogin(ctx.channel());
 
             if (loginResponsePacket.isSuccess()) {
                 System.out.println(new Date() + ":客户端登陆成功");
             } else {
                 System.out.println(new Date() + ":客户端登陆失败，原因：" + loginResponsePacket.getReason());
             }
+        } else if (packet instanceof MessageResponsePacket) {
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println("服务端返回消息：" + messageResponsePacket.getMessage());
         }
 
     }

@@ -40,9 +40,9 @@ public class NettyServer {
     private static void bind(ServerBootstrap serverBootstrap, final int port) {
         serverBootstrap.bind(port).addListener(future -> {
             if (future.isSuccess()) {
-                System.out.println("端口" + port + "绑定成功");
+                System.out.println("端口[" + port + "]绑定成功");
             } else {
-                System.out.println("端口" + port + "绑定失败");
+                System.err.println("端口[" + port + "]绑定失败");
                 // bind(serverBootstrap, port + 1);
             }
         });
