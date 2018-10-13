@@ -1,7 +1,6 @@
 package netty.protocol;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 import netty.protocol.request.LoginRequestPacket;
 import netty.protocol.request.MessageRequestPacket;
 import netty.protocol.response.LoginResponsePacket;
@@ -16,7 +15,7 @@ import static netty.protocol.command.Command.*;
 
 public class PacketCodeC {
 
-    private static final int MAGIC_NUMBER = 0x12345678;
+    public static final int MAGIC_NUMBER = 0x12345678;
     public static final PacketCodeC INSTANCE = new PacketCodeC();
 
     private final Map<Byte, Class<? extends Packet>> packetTypeMap;

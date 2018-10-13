@@ -12,6 +12,7 @@ import netty.client.handler.LoginResponseHandler;
 import netty.client.handler.MessageResponseHandler;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
+import netty.codec.Spliter;
 import netty.protocol.request.MessageRequestPacket;
 import netty.util.LoginUtil;
 
@@ -39,6 +40,7 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
+                        ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginResponseHandler());
                         ch.pipeline().addLast(new MessageResponseHandler());
