@@ -5,11 +5,10 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import netty.protocol.request.LoginRequestPacket;
 import netty.protocol.response.LoginResponsePacket;
 import netty.session.Session;
-import netty.util.LoginUtil;
+import netty.util.IDUtil;
 import netty.util.SessionUtil;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
@@ -25,7 +24,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         if (valid(loginRequestPacket)) {
             loginResponsePacket.setSuccess((true));
             // LoginUtil.markAsLogin(ctx.channel());
-            String userId = randomUserId();
+            String userId = IDUtil.randomId();
             loginResponsePacket.setUserId(userId);
             System.out.println("[" + loginRequestPacket.getUsername() + "]" + "：登陆成功");
             SessionUtil.bindSession(new Session(userId, loginRequestPacket.getUsername()), ctx.channel());
@@ -40,10 +39,6 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
 
     private boolean valid(LoginRequestPacket loginRequestPacket) {
         return true;
-    }
-
-    private static String randomUserId() {
-        return UUID.randomUUID().toString().split("-")[0];
     }
 
     @Override
