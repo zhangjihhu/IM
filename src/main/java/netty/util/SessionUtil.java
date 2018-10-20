@@ -1,6 +1,7 @@
 package netty.util;
 
 import io.netty.channel.Channel;
+import io.netty.channel.group.ChannelGroup;
 import netty.attribute.Attributes;
 import netty.session.Session;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SessionUtil {
 
     private static final Map<String, Channel> userIdChannelMap = new ConcurrentHashMap<>();
+    private static final Map<String, ChannelGroup> groupIdChannelGroupMap = new ConcurrentHashMap<>();
 
     public static void bindSession(Session session, Channel channel) {
         userIdChannelMap.put(session.getUserId(), channel);
@@ -17,8 +19,12 @@ public class SessionUtil {
     }
 
     public static void unBindSession(Channel channel) {
-        userIdChannelMap.remove(getSession(channel).getUserId());
-        channel.attr(Attributes.SESSION).set(null);
+        if (hasLogin(channel)) {
+            Session session = getSession(channel);
+            userIdChannelMap.remove(session.getUserId());
+            channel.attr(Attributes.SESSION).set(null);
+            System.out.println(session + " 退出登录!");
+        }
     }
 
     public static boolean hasLogin(Channel channel) {
@@ -31,6 +37,14 @@ public class SessionUtil {
 
     public static Channel getChannel(String userId) {
         return userIdChannelMap.get(userId);
+    }
+
+    public static void bindChannelGroup(String groupId, ChannelGroup channelGroup) {
+        groupIdChannelGroupMap.put(groupId, channelGroup);
+    }
+
+    public static ChannelGroup getChannelGroup(String groupId) {
+        return groupIdChannelGroupMap.get(groupId);
     }
 
 }

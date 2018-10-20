@@ -10,9 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import netty.client.console.ConsoleCommandManager;
 import netty.client.console.LoginConsoleCommand;
-import netty.client.handler.CreateGroupResponseHandler;
-import netty.client.handler.LoginResponseHandler;
-import netty.client.handler.MessageResponseHandler;
+import netty.client.handler.*;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
 import netty.codec.Spliter;
@@ -42,11 +40,24 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
+
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
+
                         ch.pipeline().addLast(new LoginResponseHandler());
+
                         ch.pipeline().addLast(new MessageResponseHandler());
+
                         ch.pipeline().addLast(new CreateGroupResponseHandler());
+
+                        ch.pipeline().addLast(new JoinGroupResponseHandler());
+
+                        ch.pipeline().addLast(new QuitGroupResponseHandler());
+
+                        ch.pipeline().addLast(new ListGroupMembersResponseHandler());
+
+                        ch.pipeline().addLast(new LogoutResponseHandler());
+
                         ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
@@ -85,7 +96,7 @@ public class NettyClient {
                 if (!SessionUtil.hasLogin(channel)) {
                     loginConsoleCommand.exec(sc, channel);
                 } else {
-                    System.out.println("请输入您的指令(sendToUser, logout, createGroup):");
+                    System.out.println("请输入您的指令(sendToUser, logout, createGroup, joinGroup, quitGroup, listGroupMembers):");
                     consoleCommandManager.exec(sc, channel);
                 }
             }

@@ -1,12 +1,8 @@
 package netty.protocol;
 
 import io.netty.buffer.ByteBuf;
-import netty.protocol.request.CreateGroupRequestPacket;
-import netty.protocol.request.LoginRequestPacket;
-import netty.protocol.request.MessageRequestPacket;
-import netty.protocol.response.CreateGroupResponsePacket;
-import netty.protocol.response.LoginResponsePacket;
-import netty.protocol.response.MessageResponsePacket;
+import netty.protocol.request.*;
+import netty.protocol.response.*;
 import netty.serialize.Serializer;
 import netty.serialize.impl.JSONSerializer;
 
@@ -31,6 +27,12 @@ public class PacketCodeC {
         packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
         packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
         packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        packetTypeMap.put(JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+        packetTypeMap.put(JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+        packetTypeMap.put(QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+        packetTypeMap.put(QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+        packetTypeMap.put(LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
