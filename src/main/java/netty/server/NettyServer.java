@@ -33,22 +33,22 @@ public class NettyServer {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
 
-                        ch.pipeline().addLast(new LoginRequestHandler());
-                        ch.pipeline().addLast(new AuthHandler());
+                        ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
+                        ch.pipeline().addLast(AuthHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new MessageRequestHandler());
+                        ch.pipeline().addLast(MessageRequestHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new CreateGroupRequestHandler());
+                        ch.pipeline().addLast(CreateGroupRequestHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new JoinGroupRequestHandler());
+                        ch.pipeline().addLast(JoinGroupRequestHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new QuitGroupRequestHandler());
+                        ch.pipeline().addLast(QuitGroupRequestHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new ListGroupMembersRequestHandler());
+                        ch.pipeline().addLast(ListGroupMembersRequestHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new GroupMessageRequestHandler());
+                        ch.pipeline().addLast(GroupMessageRequestHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new LogoutRequestHandler());
+                        ch.pipeline().addLast(LogoutRequestHandler.INSTANCE);
 
                         ch.pipeline().addLast(new PacketEncoder());
                     }

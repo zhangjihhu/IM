@@ -1,6 +1,7 @@
 package netty.server.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.protocol.request.MessageRequestPacket;
@@ -8,8 +9,13 @@ import netty.protocol.response.MessageResponsePacket;
 import netty.session.Session;
 import netty.util.SessionUtil;
 
-
+@ChannelHandler.Sharable
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+
+    public static final MessageRequestHandler INSTANCE = new MessageRequestHandler();
+
+    private MessageRequestHandler() {}
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) throws Exception {
 
@@ -31,10 +37,6 @@ public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRe
         } else {
             System.out.println("[" + session.getUserId() + "] 不在线，发送失败");
         }
-        // MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
-        // System.out.println(new Date() + ":收到客户端消息：" + messageRequestPacket.getMessage());
-        // messageResponsePacket.setMessage("客户端回复【"+ messageRequestPacket.getMessage() +"】");
-
-        // ctx.channel().writeAndFlush(messageResponsePacket);
     }
+
 }

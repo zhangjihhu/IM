@@ -44,21 +44,21 @@ public class NettyClient {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
 
-                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(LoginResponseHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(MessageResponseHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new CreateGroupResponseHandler());
+                        ch.pipeline().addLast(CreateGroupResponseHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new JoinGroupResponseHandler());
+                        ch.pipeline().addLast(JoinGroupResponseHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new QuitGroupResponseHandler());
+                        ch.pipeline().addLast(QuitGroupResponseHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new ListGroupMembersResponseHandler());
+                        ch.pipeline().addLast(ListGroupMembersResponseHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new GroupMessageResponseHandler());
+                        ch.pipeline().addLast(GroupMessageResponseHandler.INSTANCE);
 
-                        ch.pipeline().addLast(new LogoutResponseHandler());
+                        ch.pipeline().addLast(LogoutResponseHandler.INSTANCE);
 
                         ch.pipeline().addLast(new PacketEncoder());
                     }

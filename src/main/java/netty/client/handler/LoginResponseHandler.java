@@ -1,13 +1,18 @@
 package netty.client.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import netty.protocol.response.LoginResponsePacket;
 import netty.session.Session;
 import netty.util.SessionUtil;
 
-
+@ChannelHandler.Sharable
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
+
+    public static final LoginResponseHandler INSTANCE = new LoginResponseHandler();
+
+    private LoginResponseHandler() {}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket loginResponsePacket) throws Exception {
