@@ -6,6 +6,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import netty.codec.PacketCodecHandler;
 import netty.codec.PacketDecoder;
 import netty.codec.PacketEncoder;
 import netty.codec.Spliter;
@@ -31,26 +32,14 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel ch) {
 
                         ch.pipeline().addLast(new Spliter());
-                        ch.pipeline().addLast(new PacketDecoder());
+
+                        ch.pipeline().addLast(PacketCodecHandler.INSTANCE);
 
                         ch.pipeline().addLast(LoginRequestHandler.INSTANCE);
                         ch.pipeline().addLast(AuthHandler.INSTANCE);
 
-                        ch.pipeline().addLast(MessageRequestHandler.INSTANCE);
+                        ch.pipeline().addLast(IMHandler.INSTANCE);
 
-                        ch.pipeline().addLast(CreateGroupRequestHandler.INSTANCE);
-
-                        ch.pipeline().addLast(JoinGroupRequestHandler.INSTANCE);
-
-                        ch.pipeline().addLast(QuitGroupRequestHandler.INSTANCE);
-
-                        ch.pipeline().addLast(ListGroupMembersRequestHandler.INSTANCE);
-
-                        ch.pipeline().addLast(GroupMessageRequestHandler.INSTANCE);
-
-                        ch.pipeline().addLast(LogoutRequestHandler.INSTANCE);
-
-                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
